@@ -1,0 +1,35 @@
+@prefix pcdo: <https://w3id.org/preclindo/ontology/pcdo/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix datacite: <http://purl.org/spar/datacite/> .
+@prefix obo: <http://purl.obolibrary.org/obo/> .
+@prefix unit: <http://qudt.org/vocab/unit/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Expected SHACL failures: missing DOI, invalid ORCID, non-positive dose, missing species, no outcome measure
+
+<https://example.org/ds/Bad_1> a pcdo:Dataset ;
+  dcterms:title "Bad dataset without DOI"@en ;
+  dcterms:issued "2024"^^xsd:gYear ;
+  dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
+  dcterms:creator <https://orcid.org/0000-0002-1825-009> ; # invalid ORCID
+  dcterms:publisher <https://ror.org/03yrm5c26> ;
+  datacite:resourceTypeGeneral "Dataset" ;
+  pcdo:describesStudy <https://example.org/study/Bad_S1> .
+
+<https://example.org/study/Bad_S1> a pcdo:Study ;
+  pcdo:isRandomized true ;
+  pcdo:isBlinded false ;
+  pcdo:sampleSize 0 ; # invalid
+  pcdo:hasCohort <https://example.org/cohort/Bad_C1> .
+
+<https://example.org/cohort/Bad_C1> a pcdo:Cohort ;
+  pcdo:hasSubject <https://example.org/subject/Bad_M1> .
+
+<https://example.org/subject/Bad_M1> a pcdo:Subject ;
+  pcdo:ageInDays -5 ; # invalid
+  pcdo:bodyWeightGrams -1.0 . # invalid and no species/sex
+
+<https://example.org/intervention/Bad_I1> a pcdo:Intervention ;
+  pcdo:doseValue 0.0 ; # invalid
+  pcdo:hasDoseUnit unit:MilliGM .
+

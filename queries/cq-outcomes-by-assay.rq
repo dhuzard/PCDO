@@ -1,0 +1,10 @@
+PREFIX pcdo: <https://w3id.org/preclindo/ontology/pcdo/>
+PREFIX sosa: <http://www.w3.org/ns/sosa/>
+
+SELECT ?assay ?measure (COUNT(?obs) AS ?nObs)
+WHERE {
+  ?assay a pcdo:Assay ; pcdo:observes ?measure .
+  OPTIONAL { ?obs a pcdo:Observation ; sosa:observedProperty ?measure . }
+}
+GROUP BY ?assay ?measure
+

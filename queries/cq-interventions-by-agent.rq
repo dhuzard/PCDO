@@ -1,0 +1,11 @@
+PREFIX pcdo: <https://w3id.org/preclindo/ontology/pcdo/>
+
+SELECT ?agent (COUNT(?iv) AS ?n) (MIN(?dose) AS ?minDose) (MAX(?dose) AS ?maxDose)
+WHERE {
+  ?iv a pcdo:Intervention ;
+      pcdo:hasAgent ?agent ;
+      pcdo:doseValue ?dose .
+}
+GROUP BY ?agent
+ORDER BY DESC(?n)
+

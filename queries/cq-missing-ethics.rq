@@ -1,0 +1,8 @@
+PREFIX pcdo: <https://w3id.org/preclindo/ontology/pcdo/>
+
+SELECT ?dataset
+WHERE {
+  ?dataset a pcdo:Dataset .
+  FILTER NOT EXISTS { ?dataset pcdo:hasEthicsApproval ?ea }
+}
+

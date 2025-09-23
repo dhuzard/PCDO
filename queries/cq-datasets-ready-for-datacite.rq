@@ -1,0 +1,16 @@
+PREFIX pcdo: <https://w3id.org/preclindo/ontology/pcdo/>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX datacite: <http://purl.org/spar/datacite/>
+
+SELECT ?dataset ?title ?doi
+WHERE {
+  ?dataset a pcdo:Dataset ;
+           dcterms:title ?title ;
+           dcterms:creator ?creator ;
+           dcterms:publisher ?publisher ;
+           dcterms:issued ?year ;
+           datacite:resourceTypeGeneral ?rtg ;
+           datacite:identifierValue ?doi ;
+           pcdo:describesStudy ?study .
+}
+

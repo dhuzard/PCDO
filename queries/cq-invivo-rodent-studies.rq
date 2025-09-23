@@ -1,0 +1,13 @@
+PREFIX pcdo: <https://w3id.org/preclindo/ontology/pcdo/>
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+
+SELECT DISTINCT ?dataset ?study ?cohort
+WHERE {
+  ?dataset a pcdo:Dataset ; pcdo:describesStudy ?study .
+  ?study pcdo:hasCohort ?cohort .
+  ?cohort pcdo:hasSubject ?subj .
+  ?subj pcdo:hasSpecies ?taxon .
+  FILTER(STRSTARTS(STR(?taxon), "http://purl.obolibrary.org/obo/NCBITaxon_"))
+  # Optional: narrow to rodent supertaxa (e.g., NCBITaxon_9989 = Rodentia) if reasoning is available
+}
+

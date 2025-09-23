@@ -24,6 +24,7 @@ def main():
             'ontology/pcdo.ttl',
             'ontology/pcdo-align.ttl',
             'ontology/pcdo-metadata.ttl',
+            'vocab/routes.ttl',
         ])
         sh = parse_graph(['shapes/pcdo-shapes.ttl'])
     except Exception as e:

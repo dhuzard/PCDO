@@ -1,0 +1,6 @@
+dist/
+reports/
+imports/*.owl
+.DS_Store
+*.log
+*.tmp

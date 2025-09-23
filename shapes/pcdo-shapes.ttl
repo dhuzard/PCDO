@@ -5,6 +5,7 @@
 @prefix datacite: <http://purl.org/spar/datacite/> .
 @prefix sosa: <http://www.w3.org/ns/sosa/> .
 @prefix schema: <http://schema.org/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 
 # Dataset must be DataCite-ready and link to a Study
 pcdo:DatasetShape a sh:NodeShape ;
@@ -45,7 +46,9 @@ pcdo:InterventionShape a sh:NodeShape ;
   sh:targetClass pcdo:Intervention ;
   sh:property [ sh:path pcdo:hasAgent ; sh:minCount 1 ; sh:nodeKind sh:IRI ; sh:pattern "^http://purl\\.obolibrary\\.org/obo/CHEBI_" ] ;
   sh:property [ sh:path pcdo:doseValue ; sh:minCount 1 ; sh:datatype xsd:decimal ; sh:minExclusive 0 ] ;
-  sh:property [ sh:path pcdo:hasDoseUnit ; sh:minCount 1 ; sh:nodeKind sh:IRI ; sh:pattern "^http://qudt\\.org/vocab/unit/" ] .
+  sh:property [ sh:path pcdo:hasDoseUnit ; sh:minCount 1 ; sh:nodeKind sh:IRI ; sh:pattern "^http://qudt\\.org/vocab/unit/" ] ;
+  sh:property [ sh:path pcdo:hasRoute ; sh:maxCount 1 ; sh:nodeKind sh:IRI ; sh:class skos:Concept ] ;
+  sh:property [ sh:path pcdo:routeLabel ; sh:maxCount 1 ; sh:datatype xsd:string ] .
 
 # Observation/Assay minimal constraints
 pcdo:ObservationShape a sh:NodeShape ;

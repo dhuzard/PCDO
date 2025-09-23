@@ -20,13 +20,14 @@ pcdo:Observation rdfs:subClassOf sosa:Observation .
 pcdo:Sample rdfs:subClassOf obo:OBI_0000747 .
 pcdo:EthicsApproval rdfs:subClassOf obo:IAO_0000311 .
 
-# Property alignments
+# Property alignments (conservative)
 pcdo:describesStudy rdfs:subPropertyOf dcterms:subject .
 pcdo:hasEthicsApproval rdfs:subPropertyOf dcterms:relation .
 pcdo:hasAssay rdfs:subPropertyOf dcterms:hasPart .
 pcdo:hasCohort rdfs:subPropertyOf dcterms:hasPart .
-pcdo:hasOutcomeMeasure rdfs:subPropertyOf sosa:observedProperty .
-pcdo:observes rdfs:subPropertyOf sosa:observedProperty .
+
+# Note: Do not align study-level outcome/property relations to SOSA properties to avoid
+# domain/range leakage from sosa:Observation. Keep pcdo:hasOutcomeMeasure and pcdo:observes independent.
 
 # Provenance alignments
 pcdo:Dataset rdfs:subClassOf prov:Entity .
@@ -34,4 +35,3 @@ pcdo:Study rdfs:subClassOf prov:Activity .
 
 # Identifier alignment (pattern)
 # If using datacite:Identifier nodes, link with datacite:hasIdentifier and datacite:identifierValue
-

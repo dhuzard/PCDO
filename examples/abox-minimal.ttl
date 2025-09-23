@@ -41,6 +41,7 @@
   pcdo:doseValue 10.0 ;
   pcdo:hasDoseUnit unit:MilliGM ;
   pcdo:routeLabel "i.p." ;
+  pcdo:hasRoute <https://w3id.org/preclindo/ontology/pcdo/Route_IP> ;
   pcdo:scheduleLabel "once daily for 5 days" .
 
 <https://example.org/measure/OM1> a pcdo:OutcomeMeasure .
@@ -52,4 +53,3 @@
   sosa:observedProperty <https://example.org/measure/OM1> ;
   sosa:hasFeatureOfInterest <https://example.org/subject/M1> ;
   sosa:resultTime "2024-05-01T12:00:00Z"^^xsd:dateTime .
-

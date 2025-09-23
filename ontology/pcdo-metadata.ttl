@@ -12,5 +12,7 @@
   dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
   vann:preferredNamespacePrefix "pcdo" ;
   vann:preferredNamespaceUri "https://w3id.org/preclindo/ontology/pcdo/" ;
-  owl:versionIRI <https://w3id.org/preclindo/ontology/pcdo/0.1.0> .
-
+  owl:versionIRI <https://w3id.org/preclindo/ontology/pcdo/0.1.0> ;
+  # Local modular imports generated via ROBOT (MIREOT)
+  owl:imports <https://w3id.org/preclindo/imports/obi_import.owl> ,
+              <https://w3id.org/preclindo/imports/iao_import.owl> .

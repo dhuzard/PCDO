@@ -12,6 +12,7 @@
 @prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix datacite: <http://purl.org/spar/datacite/> .
 @prefix obo: <http://purl.obolibrary.org/obo/> .
+@prefix iao: <http://purl.obolibrary.org/obo/IAO_> .
 
 <https://w3id.org/preclindo/ontology/pcdo>
   a owl:Ontology ;
@@ -24,50 +25,60 @@
 pcdo:Dataset a owl:Class ;
   rdfs:label "Dataset"@en ;
   rdfs:comment "The DOI-minted dataset deliverable."@en ;
+  iao:0000115 "A collection of data intended for publication and citation via a persistent identifier (e.g., DOI), accompanied by descriptive metadata."@en ;
   rdfs:subClassOf dcat:Dataset , schema:Dataset .
 
 pcdo:Study a owl:Class ;
   rdfs:label "Study"@en ;
   rdfs:comment "A preclinical investigation comprising cohorts, interventions, assays, and outcomes."@en ;
+  iao:0000115 "An investigation in which preclinical subjects are assigned to interventions and measured via assays to assess outcome measures."@en ;
   rdfs:subClassOf obo:OBI_0000066 .
 
 pcdo:Cohort a owl:Class ;
   rdfs:label "Cohort"@en ;
-  rdfs:comment "Group of subjects with shared characteristics and treatment."@en .
+  rdfs:comment "Group of subjects with shared characteristics and treatment."@en ;
+  iao:0000115 "A collection of subjects grouped by shared attributes (e.g., sex, strain) and/or assigned intervention within a study."@en .
 
 pcdo:Subject a owl:Class ;
   rdfs:label "Subject"@en ;
   rdfs:comment "An experimental animal subject (organism)."@en ;
+  iao:0000115 "An individual organism serving as the unit of assignment and observation in a preclinical study."@en ;
   rdfs:subClassOf obo:OBI_0100026 .
 
 pcdo:Intervention a owl:Class ;
   rdfs:label "Intervention"@en ;
   rdfs:comment "A planned process such as a drug administration or procedure."@en ;
+  iao:0000115 "A planned process applied to a subject or cohort (e.g., administration of a chemical agent or a surgical procedure)."@en ;
   rdfs:subClassOf obo:OBI_0000011 .
 
 pcdo:Assay a owl:Class ;
   rdfs:label "Assay"@en ;
   rdfs:comment "An assay used to generate observations (measurements)."@en ;
+  iao:0000115 "A planned process that implements a method to measure or detect an outcome measure."@en ;
   rdfs:subClassOf obo:OBI_0000070 .
 
 pcdo:OutcomeMeasure a owl:Class ;
   rdfs:label "Outcome Measure"@en ;
   rdfs:comment "An observable property measured as a study outcome."@en ;
+  iao:0000115 "A property or variable selected as an endpoint to evaluate the effect of an intervention (e.g., blood glucose level, tumor volume)."@en ;
   rdfs:subClassOf sosa:ObservableProperty .
 
 pcdo:Observation a owl:Class ;
   rdfs:label "Observation"@en ;
   rdfs:comment "A concrete observation linking an assay to a feature of interest and result."@en ;
+  iao:0000115 "A measurement instance produced by an assay on a feature of interest at a time, possibly with a result value."@en ;
   rdfs:subClassOf sosa:Observation .
 
 pcdo:Sample a owl:Class ;
   rdfs:label "Sample"@en ;
   rdfs:comment "A specimen derived from a subject."@en ;
+  iao:0000115 "A material entity collected from a subject for analysis (e.g., blood, tissue)."@en ;
   rdfs:subClassOf obo:OBI_0000747 .
 
 pcdo:EthicsApproval a owl:Class ;
   rdfs:label "Ethics Approval"@en ;
   rdfs:comment "An institutional ethics approval document or identifier."@en ;
+  iao:0000115 "A document or identifier indicating that the study protocol received required institutional ethics approval."@en ;
   rdfs:subClassOf obo:IAO_0000311 .
 
 # Object properties
@@ -186,4 +197,3 @@ pcdo:sampleSize a owl:DatatypeProperty ;
 
 # Helpful disjointness
 pcdo:Subject owl:disjointWith pcdo:Intervention , pcdo:Assay , pcdo:Observation .
-

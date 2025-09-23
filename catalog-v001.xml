@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog prefer="public" xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+  <uri id="pcdo-obi-import" name="https://w3id.org/preclindo/imports/obi_import.owl" uri="imports/obi_import.owl"/>
+  <uri id="pcdo-iao-import" name="https://w3id.org/preclindo/imports/iao_import.owl" uri="imports/iao_import.owl"/>
+</catalog>

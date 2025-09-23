@@ -1,0 +1,409 @@
+@prefix :       <http://purl.org/mapp/datacite-preclinical#> .
+@prefix mappdc: <http://purl.org/mapp/datacite-preclinical#> .
+@prefix datacite: <http://purl.org/spar/datacite/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix prov:   <http://www.w3.org/ns/prov#> .
+@prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
+@prefix owl:    <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix literal: <http://www.essepuntato.it/2010/06/literalreification/> .
+@prefix co:     <http://purl.org/co/> .
+@prefix schema: <https://schema.org/> .
+@prefix wgs84:  <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+
+<http://purl.org/mapp/datacite-preclinical>
+    a owl:Ontology ;
+    rdfs:label "MAPP DataCite Preclinical Extension"@en ;
+    dcterms:creator "MetaDatApp (MAPP)" ;
+    dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
+    dcterms:created "2025-09-22"^^xsd:date ;
+    owl:versionIRI <http://purl.org/mapp/datacite-preclinical/1.0.0> ;
+    owl:imports <file:../imports/datacite.owl> ;
+    rdfs:comment "Extension of SPAR/DataCite for preclinical research datasets, studies, subjects, interventions, endpoints, and sessions."@en .
+
+### ---- Core classes (add more as needed) ----
+
+mappdc:PreclinicalStudy a owl:Class ;
+  rdfs:label "Preclinical study"@en ;
+  rdfs:subClassOf prov:Activity ;
+  dcterms:description "A structured preclinical experiment producing one or more datasets and outputs."@en .
+
+mappdc:Subject a owl:Class ;
+  rdfs:label "Subject (animal)"@en ;
+  rdfs:subClassOf prov:Entity ;
+  dcterms:description "An experimental animal subject (e.g., a mouse or rat) in a preclinical study."@en .
+
+mappdc:Group a owl:Class ;
+  rdfs:label "Group/Cohort"@en ;
+  rdfs:subClassOf prov:Entity ;
+  dcterms:description "A set of subjects sharing experimental conditions (e.g., treatment vs control)."@en .
+
+mappdc:Intervention a owl:Class ;
+  rdfs:label "Intervention"@en ;
+  rdfs:subClassOf prov:Activity ;
+  dcterms:description "An administered treatment or manipulation (compound, dose, route, schedule)."@en .
+
+mappdc:DosingRegimen a owl:Class ;
+  rdfs:label "Dosing regimen"@en ;
+  rdfs:subClassOf prov:Entity ;
+  dcterms:description "Specification of dose amount, unit, frequency, and duration."@en .
+
+mappdc:Endpoint a owl:Class ;
+  rdfs:label "Endpoint"@en ;
+  rdfs:subClassOf prov:Entity ;
+  dcterms:description "A measured outcome (e.g., activity, food intake, ECG metric)."@en .
+
+mappdc:RecordingSession a owl:Class ;
+  rdfs:label "Recording session"@en ;
+  rdfs:subClassOf prov:Activity ;
+  dcterms:description "A data acquisition session (time-bounded) producing files linked to a dataset/distribution."@en .
+
+mappdc:HCMSystem a owl:Class ;
+  rdfs:label "Home cage monitoring system"@en ;
+  rdfs:subClassOf prov:Entity ;
+  dcterms:description "Hardware/software stack used for continuous behavioral/physiological monitoring in the home cage."@en .
+
+mappdc:EthicalApproval a owl:Class ;
+  rdfs:label "Ethical approval"@en ;
+  rdfs:subClassOf prov:Entity ;
+  dcterms:description "Ethical authorization (IACUC/CEEA) for procedures performed in the study."@en .
+
+### ---- Object properties ----
+
+mappdc:describesStudy a owl:ObjectProperty ;
+  rdfs:label "describes study"@en ;
+  rdfs:comment "Links a DataCite resource/identifier to the preclinical study it documents."@en ;
+  rdfs:domain datacite:Resource ;
+  rdfs:range  mappdc:PreclinicalStudy .
+
+mappdc:hasSubject a owl:ObjectProperty ;
+  rdfs:label "has subject"@en ;
+  rdfs:domain mappdc:PreclinicalStudy ;
+  rdfs:range  mappdc:Subject .
+
+mappdc:inGroup a owl:ObjectProperty ;
+  rdfs:label "in group"@en ;
+  rdfs:domain mappdc:Subject ;
+  rdfs:range  mappdc:Group .
+
+mappdc:receivedIntervention a owl:ObjectProperty ;
+  rdfs:label "received intervention"@en ;
+  rdfs:domain mappdc:Subject ;
+  rdfs:range  mappdc:Intervention .
+
+mappdc:hasDosingRegimen a owl:ObjectProperty ;
+  rdfs:label "has dosing regimen"@en ;
+  rdfs:domain mappdc:Intervention ;
+  rdfs:range  mappdc:DosingRegimen .
+
+mappdc:hasEndpoint a owl:ObjectProperty ;
+  rdfs:label "has endpoint"@en ;
+  rdfs:domain mappdc:PreclinicalStudy ;
+  rdfs:range  mappdc:Endpoint .
+
+mappdc:hasRecordingSession a owl:ObjectProperty ;
+  rdfs:label "has recording session"@en ;
+  rdfs:domain mappdc:PreclinicalStudy ;
+  rdfs:range  mappdc:RecordingSession .
+
+mappdc:usesHCMSystem a owl:ObjectProperty ;
+  rdfs:label "uses HCM system"@en ;
+  rdfs:domain mappdc:RecordingSession ;
+  rdfs:range  mappdc:HCMSystem .
+
+mappdc:hasEthicalApproval a owl:ObjectProperty ;
+  rdfs:label "has ethical approval"@en ;
+  rdfs:domain mappdc:PreclinicalStudy ;
+  rdfs:range  mappdc:EthicalApproval .
+
+### ---- Datatype properties (examples you can extend) ----
+
+mappdc:hasIACUCCode a owl:DatatypeProperty ;
+  rdfs:label "IACUC/CEEA code"@en ;
+  rdfs:domain mappdc:EthicalApproval ;
+  rdfs:range  xsd:string .
+
+mappdc:hasRRID a owl:DatatypeProperty ;
+  rdfs:label "RRID"@en ;
+  rdfs:domain prov:Entity ;
+  rdfs:range  xsd:string .
+
+mappdc:hasDoseValue a owl:DatatypeProperty ;
+  rdfs:label "dose value"@en ;
+  rdfs:domain mappdc:DosingRegimen ;
+  rdfs:range  xsd:decimal .
+
+mappdc:hasDoseUnit a owl:ObjectProperty ;
+  rdfs:label "dose unit (SKOS concept or UO term)"@en ;
+  rdfs:domain mappdc:DosingRegimen ;
+  rdfs:range  skos:Concept .
+
+mappdc:hasRoute a owl:ObjectProperty ;
+  rdfs:label "route of administration (SKOS concept)"@en ;
+  rdfs:domain mappdc:Intervention ;
+  rdfs:range  skos:Concept .
+
+mappdc:hasFrequencyPerDay a owl:DatatypeProperty ;
+  rdfs:label "frequency per day"@en ;
+  rdfs:domain mappdc:DosingRegimen ;
+  rdfs:range  xsd:decimal .
+
+### ---- Helpful alignments to DataCite (illustrative) ----
+# Use these sparingly; prefer subPropertyOf to avoid over-commitment.
+
+mappdc:describesStudy rdfs:subPropertyOf datacite:hasDescription .
+
+### ---- Reuse patterns: Identifier, Title, Creators, Publisher, Description ----
+
+### Identifier pattern (primary DOI + alternates)
+# Attach identifiers to the DataCite resource describing your dataset/record.
+# Use datacite:PrimaryResourceIdentifier for DOI, and datacite:AlternateResourceIdentifier for others.
+# Values are carried by literal:hasLiteralValue; schemes by datacite:usesIdentifierScheme.
+
+# Example (replace :dataset123 with your resource IRI)
+# :dataset123
+#   datacite:hasIdentifier [
+#     a datacite:PrimaryResourceIdentifier ;
+#     literal:hasLiteralValue "10.1234/abcd.efgh" ;
+#     datacite:usesIdentifierScheme datacite:doi
+#   ] ;
+#   datacite:hasIdentifier [
+#     a datacite:AlternateResourceIdentifier ;
+#     literal:hasLiteralValue "https://example.org/landing/dataset123" ;
+#     datacite:usesIdentifierScheme datacite:url
+#   ] .
+
+### Title pattern
+# Use dcterms:title with language tags. If you need title types (e.g., AlternativeTitle),
+# use mappdc:hasTitleType with a value from mappdc:TitleType (see vocab) when needed.
+
+### Creator pattern
+# Prefer ordered creators via datacite:hasCreatorList to a co:List of agents (schema:Person or schema:Organization).
+# Each agent can carry an identifier via datacite:hasIdentifier → datacite:PersonalIdentifier/OrganizationIdentifier
+# with datacite:usesIdentifierScheme (e.g., datacite:orcid, datacite:ror) and literal:hasLiteralValue.
+
+### Contributor pattern with roles (CRediT)
+# Use dcterms:contributor to point to schema:Person or schema:Organization.
+# Attach role(s) using prov:hadRole pointing to SKOS concepts in mappdc:CreditRoleScheme.
+# Example:
+# :dataset123 dcterms:contributor :alice .
+# :alice a schema:Person ; schema:name "Alice Example" ;
+#   prov:hadRole mappdc:roleInvestigation, mappdc:roleWritingOriginalDraft ;
+#   datacite:hasIdentifier [ a datacite:PersonalIdentifier ; literal:hasLiteralValue "0000-0002-1825-0097" ; datacite:usesIdentifierScheme datacite:orcid ] .
+
+### Publisher pattern
+# Use dcterms:publisher pointing to a schema:Organization.
+# If available, give the organization a ROR/ISNI using the same identifier pattern.
+
+### Description pattern
+# Use datacite:hasDescription to a node with one datacite:hasDescriptionType (e.g., datacite:abstract)
+# and the free-text in literal:hasLiteralValue.
+
+### Resource type pattern
+# Use datacite:hasGeneralResourceType pointing to a skos:Concept (per DataCite list via dcmitype/fabio).
+
+### Publication year pattern
+# Use dcterms:issued with xsd:gYear (or schema:datePublished as an alternative).
+
+### Subject pattern
+# Use dcterms:subject to a skos:Concept in a scheme (e.g., MeSH, NCI Thesaurus); literals are acceptable when needed.
+
+### Related identifier pattern (when not resolvable as a URI)
+# Use mappdc:hasRelatedIdentifier to attach a related identifier node with value and scheme.
+
+### ---- New terms to cover DataCite JSON gaps ----
+
+mappdc:RelatedIdentifier a owl:Class ;
+  rdfs:label "Related identifier"@en ;
+  rdfs:subClassOf literal:Literal ;
+  dcterms:description "Literal reification for a related identifier not modelled by SPAR/DataCite properties; carries a value and a scheme, and may be paired with a relation type elsewhere."@en .
+
+mappdc:hasRelatedIdentifier a owl:ObjectProperty ;
+  rdfs:label "has related identifier"@en ;
+  rdfs:domain datacite:Resource ;
+  rdfs:range  mappdc:RelatedIdentifier ;
+  rdfs:comment "Attach a related identifier (non-primary) to a DataCite resource when only an identifier string is available."@en .
+
+### Optional: title typing if needed
+mappdc:hasTitleType a owl:ObjectProperty ;
+  rdfs:label "has title type"@en ;
+  rdfs:domain datacite:Resource ;
+  rdfs:range  skos:Concept ;
+  rdfs:comment "Classify titles (e.g., AlternativeTitle, Subtitle) using a SKOS concept from mappdc:TitleType."@en .
+
+### ---- Preclinical genetics and pharmacology additions ----
+
+# Species on study (or dataset) as a SKOS concept (e.g., NCBITaxon)
+mappdc:hasSpecies a owl:ObjectProperty ;
+  rdfs:label "has species"@en ;
+  rdfs:domain mappdc:PreclinicalStudy ;
+  rdfs:range  skos:Concept ;
+  rdfs:comment "Primary species studied; prefer SKOS concepts (e.g., NCBITaxon)."@en .
+
+# Gene entity and properties (lightweight when external IDs are not provided)
+mappdc:Gene a owl:Class ;
+  rdfs:label "Gene"@en ;
+  rdfs:subClassOf prov:Entity .
+
+mappdc:hasGene a owl:ObjectProperty ;
+  rdfs:label "has gene"@en ;
+  rdfs:domain mappdc:PreclinicalStudy ;
+  rdfs:range  mappdc:Gene .
+
+mappdc:geneSymbol a owl:DatatypeProperty ;
+  rdfs:label "gene symbol"@en ;
+  rdfs:domain mappdc:Gene ;
+  rdfs:range  xsd:string .
+
+mappdc:geneName a owl:DatatypeProperty ;
+  rdfs:label "gene name"@en ;
+  rdfs:domain mappdc:Gene ;
+  rdfs:range  xsd:string .
+
+mappdc:geneAccessionId a owl:DatatypeProperty ;
+  rdfs:label "gene accession identifier"@en ;
+  rdfs:domain mappdc:Gene ;
+  rdfs:range  xsd:string .
+
+mappdc:geneChromosomeLocation a owl:DatatypeProperty ;
+  rdfs:label "gene chromosome location"@en ;
+  rdfs:domain mappdc:Gene ;
+  rdfs:range  xsd:string .
+
+mappdc:geneMutationType a owl:ObjectProperty ;
+  rdfs:label "gene mutation type"@en ;
+  rdfs:domain mappdc:Gene ;
+  rdfs:range  skos:Concept ;
+  rdfs:comment "Use SO terms when possible; otherwise a SKOS concept from mappdc vocab."@en .
+
+mappdc:alleleAccessionId a owl:DatatypeProperty ;
+  rdfs:label "allele accession identifier"@en ;
+  rdfs:domain mappdc:Gene ;
+  rdfs:range  xsd:string .
+
+mappdc:alleleSymbol a owl:DatatypeProperty ;
+  rdfs:label "allele symbol"@en ;
+  rdfs:domain mappdc:Gene ;
+  rdfs:range  xsd:string .
+
+# Pharmacological treatment fields mapped to Intervention
+mappdc:treatmentName a owl:DatatypeProperty ;
+  rdfs:label "treatment name"@en ;
+  rdfs:domain mappdc:Intervention ;
+  rdfs:range  xsd:string .
+
+mappdc:treatmentProtocol a owl:DatatypeProperty ;
+  rdfs:label "treatment protocol"@en ;
+  rdfs:domain mappdc:Intervention ;
+  rdfs:range  xsd:string .
+
+mappdc:treatmentDesign a owl:DatatypeProperty ;
+  rdfs:label "treatment design"@en ;
+  rdfs:domain mappdc:Intervention ;
+  rdfs:range  xsd:string .
+
+### ---- Funding, Rights, Language, Geo, RelatedItem, Dates, Size/Format/Version ----
+
+# Funding reference
+mappdc:FundingReference a owl:Class ;
+  rdfs:label "Funding reference"@en ;
+  dcterms:description "Funding statement including funder, award number/title/URI."@en .
+
+mappdc:hasFunding a owl:ObjectProperty ;
+  rdfs:label "has funding"@en ;
+  rdfs:domain datacite:Resource ;
+  rdfs:range  mappdc:FundingReference .
+
+mappdc:funder a owl:ObjectProperty ;
+  rdfs:label "funder"@en ;
+  rdfs:domain mappdc:FundingReference ;
+  rdfs:range  schema:Organization ;
+  rdfs:comment "Funder organization; identify with datacite:FunderIdentifier (e.g., datacite:fundref) when possible."@en .
+
+mappdc:awardNumber a owl:DatatypeProperty ;
+  rdfs:label "award number"@en ;
+  rdfs:domain mappdc:FundingReference ;
+  rdfs:range  xsd:string .
+
+mappdc:awardTitle a owl:DatatypeProperty ;
+  rdfs:label "award title"@en ;
+  rdfs:domain mappdc:FundingReference ;
+  rdfs:range  xsd:string .
+
+mappdc:awardURI a owl:DatatypeProperty ;
+  rdfs:label "award URI"@en ;
+  rdfs:domain mappdc:FundingReference ;
+  rdfs:range  xsd:anyURI .
+
+# Rights (reuse DCTERMS; no new classes required)
+# dcterms:license (URI), dcterms:rights (string), dcterms:rightsHolder (Agent)
+
+# Language (reuse DCTERMS and xsd:language)
+# dcterms:language (xsd:language or link to a concept)
+
+# GeoLocation
+mappdc:GeoLocation a owl:Class ;
+  rdfs:label "Geolocation"@en ;
+  dcterms:description "Place/point/box describing the spatial coverage of the resource."@en .
+
+mappdc:hasGeoLocation a owl:ObjectProperty ;
+  rdfs:label "has geolocation"@en ;
+  rdfs:domain datacite:Resource ;
+  rdfs:range  mappdc:GeoLocation .
+
+mappdc:place a owl:DatatypeProperty ;
+  rdfs:label "place"@en ;
+  rdfs:domain mappdc:GeoLocation ;
+  rdfs:range  xsd:string .
+
+mappdc:boxWest a owl:DatatypeProperty ;
+  rdfs:label "box west lon"@en ;
+  rdfs:domain mappdc:GeoLocation ;
+  rdfs:range  xsd:decimal .
+
+mappdc:boxEast a owl:DatatypeProperty ;
+  rdfs:label "box east lon"@en ;
+  rdfs:domain mappdc:GeoLocation ;
+  rdfs:range  xsd:decimal .
+
+mappdc:boxSouth a owl:DatatypeProperty ;
+  rdfs:label "box south lat"@en ;
+  rdfs:domain mappdc:GeoLocation ;
+  rdfs:range  xsd:decimal .
+
+mappdc:boxNorth a owl:DatatypeProperty ;
+  rdfs:label "box north lat"@en ;
+  rdfs:domain mappdc:GeoLocation ;
+  rdfs:range  xsd:decimal .
+
+# Use WGS84 lat/long on the GeoLocation node when providing a single point
+# wgs84:lat xsd:decimal, wgs84:long xsd:decimal
+
+# Related item (richer than related identifier)
+mappdc:RelatedItem a owl:Class ;
+  rdfs:label "Related item"@en ;
+  dcterms:description "Structured related resource with relation type, identifiers, title, and type."@en .
+
+mappdc:hasRelatedItem a owl:ObjectProperty ;
+  rdfs:label "has related item"@en ;
+  rdfs:domain datacite:Resource ;
+  rdfs:range  mappdc:RelatedItem .
+
+mappdc:relationType a owl:ObjectProperty ;
+  rdfs:label "relation type"@en ;
+  rdfs:domain mappdc:RelatedItem ;
+  rdfs:range  skos:Concept ;
+  rdfs:comment "Use concepts from mappdc:RelationTypeScheme (DataCite relationType list)."@en .
+
+mappdc:relatedItemType a owl:ObjectProperty ;
+  rdfs:label "related item type"@en ;
+  rdfs:domain mappdc:RelatedItem ;
+  rdfs:range  skos:Concept ;
+  rdfs:comment "General resource type of the related item (DataCite resourceTypeGeneral)."@en .
+
+# Dates (reuse DCTERMS where possible)
+# dcterms:created, dcterms:available, dcterms:modified, dcterms:valid, dcterms:issued already covered.
+
+# Size / Format / Version (reuse DCTERMS/Schema)
+# dcterms:extent (size string), dcterms:format (IMT or string), schema:version (string)

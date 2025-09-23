@@ -1,0 +1,60 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix pcdo: <https://w3id.org/preclindo/ontology/pcdo/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix datacite: <http://purl.org/spar/datacite/> .
+@prefix sosa: <http://www.w3.org/ns/sosa/> .
+
+# Dataset must be DataCite-ready and link to a Study
+pcdo:DatasetShape a sh:NodeShape ;
+  sh:targetClass pcdo:Dataset ;
+  sh:property [ sh:path datacite:identifierValue ; sh:minCount 1 ; sh:datatype xsd:string ; sh:pattern "^10\\.\\d{4,9}/.+" ] ;
+  sh:property [ sh:path dcterms:title ; sh:minCount 1 ] ;
+  sh:property [ sh:path dcterms:creator ; sh:minCount 1 ] ;
+  sh:property [ sh:path dcterms:publisher ; sh:minCount 1 ] ;
+  sh:property [ sh:path dcterms:issued ; sh:minCount 1 ; sh:datatype xsd:gYear ] ;
+  sh:property [ sh:path datacite:resourceTypeGeneral ; sh:minCount 1 ] ;
+  sh:property [ sh:path dcterms:license ; sh:minCount 1 ; sh:nodeKind sh:IRI ] ;
+  sh:property [ sh:path pcdo:describesStudy ; sh:minCount 1 ; sh:class pcdo:Study ] .
+
+# Study must have at least one cohort and outcome measure; flags and sample size
+pcdo:StudyShape a sh:NodeShape ;
+  sh:targetClass pcdo:Study ;
+  sh:property [ sh:path pcdo:hasCohort ; sh:minCount 1 ; sh:class pcdo:Cohort ] ;
+  sh:property [ sh:path pcdo:hasOutcomeMeasure ; sh:minCount 1 ; sh:class pcdo:OutcomeMeasure ] ;
+  sh:property [ sh:path pcdo:isRandomized ; sh:minCount 1 ; sh:datatype xsd:boolean ] ;
+  sh:property [ sh:path pcdo:isBlinded ; sh:minCount 1 ; sh:datatype xsd:boolean ] ;
+  sh:property [ sh:path pcdo:sampleSize ; sh:minCount 1 ; sh:datatype xsd:integer ; sh:minExclusive 0 ] .
+
+# Cohort must have subjects
+pcdo:CohortShape a sh:NodeShape ;
+  sh:targetClass pcdo:Cohort ;
+  sh:property [ sh:path pcdo:hasSubject ; sh:minCount 1 ; sh:class pcdo:Subject ] .
+
+# Subject constraints: species, sex, age, weight
+pcdo:SubjectShape a sh:NodeShape ;
+  sh:targetClass pcdo:Subject ;
+  sh:property [ sh:path pcdo:hasSpecies ; sh:minCount 1 ; sh:nodeKind sh:IRI ; sh:pattern "^http://purl\\.obolibrary\\.org/obo/NCBITaxon_" ] ;
+  sh:property [ sh:path pcdo:hasSex ; sh:minCount 1 ; sh:in ( <http://purl.obolibrary.org/obo/PATO_0000384> <http://purl.obolibrary.org/obo/PATO_0000383> <http://purl.obolibrary.org/obo/PATO_0000047> ) ] ;
+  sh:property [ sh:path pcdo:ageInDays ; sh:minCount 1 ; sh:datatype xsd:integer ; sh:minExclusive 0 ] ;
+  sh:property [ sh:path pcdo:bodyWeightGrams ; sh:minCount 1 ; sh:datatype xsd:decimal ; sh:minExclusive 0 ] .
+
+# Intervention constraints
+pcdo:InterventionShape a sh:NodeShape ;
+  sh:targetClass pcdo:Intervention ;
+  sh:property [ sh:path pcdo:hasAgent ; sh:minCount 1 ; sh:nodeKind sh:IRI ; sh:pattern "^http://purl\\.obolibrary\\.org/obo/CHEBI_" ] ;
+  sh:property [ sh:path pcdo:doseValue ; sh:minCount 1 ; sh:datatype xsd:decimal ; sh:minExclusive 0 ] ;
+  sh:property [ sh:path pcdo:hasDoseUnit ; sh:minCount 1 ; sh:nodeKind sh:IRI ; sh:pattern "^http://qudt\\.org/vocab/unit/" ] .
+
+# Observation/Assay minimal constraints
+pcdo:ObservationShape a sh:NodeShape ;
+  sh:targetClass pcdo:Observation ;
+  sh:property [ sh:path sosa:observedProperty ; sh:minCount 1 ] ;
+  sh:property [ sh:path sosa:hasFeatureOfInterest ; sh:minCount 1 ] ;
+  sh:property [ sh:path sosa:resultTime ; sh:minCount 1 ] .
+
+# Optional: Person ORCID format if present
+pcdo:PersonShape a sh:NodeShape ;
+  sh:targetClass schema:Person ;
+  sh:property [ sh:path schema:sameAs ; sh:nodeKind sh:IRI ; sh:pattern "^https?://orcid\\.org/\\d{4}-\\d{4}-\\d{4}-\\d{3}[\\dX]$" ] .
+

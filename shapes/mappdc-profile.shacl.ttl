@@ -1,0 +1,268 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix datacite: <http://purl.org/spar/datacite/> .
+@prefix schema: <https://schema.org/> .
+@prefix co: <http://purl.org/co/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix literal: <http://www.essepuntato.it/2010/06/literalreification/> .
+@prefix mappdc: <http://purl.org/mapp/datacite-preclinical#> .
+@prefix wgs84: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+
+### DataCite resource shape (core bibliographic metadata)
+
+mappdc:ResourceShape
+  a sh:NodeShape ;
+  sh:targetSubjectsOf datacite:hasIdentifier ;
+  # Identifier: exactly one primary DOI
+  sh:property [
+    sh:path datacite:hasIdentifier ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:node mappdc:PrimaryIdentifierShape ;
+    sh:message "Exactly one primary identifier (DOI) is required." ;
+  ] ;
+  # Optional alternates
+  sh:property [
+    sh:path datacite:hasIdentifier ;
+    sh:node mappdc:AlternateIdentifierShape ;
+    sh:message "Alternate identifiers must include value and scheme." ;
+  ] ;
+  # Title
+  sh:property [
+    sh:path dcterms:title ;
+    sh:minCount 1 ;
+    sh:datatype rdf:langString ;
+    sh:message "Provide at least one language-tagged title." ;
+  ] ;
+  # Publisher (prefer Organization)
+  sh:property [
+    sh:path dcterms:publisher ;
+    sh:minCount 1 ;
+    sh:or (
+      [ sh:class schema:Organization ]
+      [ sh:datatype xsd:string ]
+    ) ;
+  ] ;
+  # Publication year (prefer dcterms:issued gYear; allow schema:datePublished)
+  sh:property [
+    sh:path dcterms:issued ;
+    sh:datatype xsd:gYear ;
+    sh:minCount 1 ;
+  ] ;
+  sh:property [
+    sh:path schema:datePublished ;
+    sh:datatype xsd:date ;
+    sh:maxCount 1 ;
+  ] ;
+  # Resource type
+  sh:property [
+    sh:path datacite:hasGeneralResourceType ;
+    sh:class skos:Concept ;
+    sh:minCount 1 ;
+  ] ;
+  # Creators: either hasCreatorList or direct dcterms:creator
+  sh:or (
+    [ sh:property [ sh:path datacite:hasCreatorList ; sh:minCount 1 ; sh:class co:List ] ]
+    [ sh:property [ sh:path dcterms:creator ; sh:minCount 1 ] ]
+  ) ;
+  # Description(s)
+  sh:property [
+    sh:path datacite:hasDescription ;
+    sh:node mappdc:DescriptionShape ;
+  ] ;
+  # Subjects (optional but encouraged)
+  sh:property [
+    sh:path dcterms:subject ;
+    sh:or (
+      [ sh:class skos:Concept ]
+      [ sh:datatype rdf:langString ]
+    ) ;
+  ] ;
+  # Language codes
+  sh:property [
+    sh:path dcterms:language ;
+    sh:or (
+      [ sh:datatype xsd:language ]
+      [ sh:class skos:Concept ]
+    ) ;
+    sh:maxCount 1 ;
+  ] ;
+  # Rights
+  sh:property [
+    sh:path dcterms:license ;
+    sh:datatype xsd:anyURI ;
+    sh:maxCount 1 ;
+  ] ;
+  sh:property [
+    sh:path dcterms:rights ;
+    sh:datatype rdf:langString ;
+    sh:maxCount 1 ;
+  ] ;
+  # Size / Format / Version
+  sh:property [ sh:path dcterms:extent ; sh:datatype rdf:langString ; sh:maxCount 1 ] ;
+  sh:property [
+    sh:path dcterms:format ;
+    sh:or (
+      [ sh:datatype rdf:langString ]
+      [ sh:class skos:Concept ]
+    ) ;
+    sh:maxCount 1 ;
+  ] ;
+  sh:property [ sh:path schema:version ; sh:datatype xsd:string ; sh:maxCount 1 ] ;
+  # Funding, Geo, RelatedItem
+  sh:property [ sh:path mappdc:hasFunding ; sh:node mappdc:FundingReferenceShape ] ;
+  sh:property [ sh:path mappdc:hasGeoLocation ; sh:node mappdc:GeoLocationShape ] ;
+  sh:property [ sh:path mappdc:hasRelatedItem ; sh:node mappdc:RelatedItemShape ] ;
+  # Contributors with CRediT roles
+  sh:property [ sh:path dcterms:contributor ; sh:node mappdc:ContributorShape ] ;
+  # Related identifiers via mappdc extension
+  sh:property [
+    sh:path mappdc:hasRelatedIdentifier ;
+    sh:node mappdc:RelatedIdentifierShape ;
+  ] .
+
+### Identifier node shapes
+
+mappdc:PrimaryIdentifierShape
+  a sh:NodeShape ;
+  sh:class datacite:PrimaryResourceIdentifier ;
+  sh:property [ sh:path literal:hasLiteralValue ; sh:datatype xsd:string ; sh:minCount 1 ] ;
+  sh:property [ sh:path datacite:usesIdentifierScheme ; sh:hasValue datacite:doi ; sh:minCount 1 ; sh:maxCount 1 ] .
+
+mappdc:AlternateIdentifierShape
+  a sh:NodeShape ;
+  sh:class datacite:AlternateResourceIdentifier ;
+  sh:property [ sh:path literal:hasLiteralValue ; sh:datatype xsd:string ; sh:minCount 1 ] ;
+  sh:property [ sh:path datacite:usesIdentifierScheme ; sh:in ( datacite:url datacite:uri datacite:ark ) ; sh:minCount 1 ; sh:maxCount 1 ] .
+
+### Description node shape
+
+mappdc:DescriptionShape
+  a sh:NodeShape ;
+  sh:property [ sh:path datacite:hasDescriptionType ; sh:minCount 1 ; sh:maxCount 1 ] ;
+  sh:property [ sh:path literal:hasLiteralValue ; sh:datatype rdf:langString ; sh:minCount 1 ] .
+
+### Agent shapes (creators, contributors, publisher)
+
+mappdc:PersonShape
+  a sh:NodeShape ;
+  sh:targetClass schema:Person ;
+  sh:property [ sh:path schema:name ; sh:minCount 1 ] ;
+  sh:property [ sh:path datacite:hasIdentifier ; sh:node mappdc:PersonalIdentifierShape ] ;
+  sh:property [ sh:path schema:affiliation ; sh:class schema:Organization ] .
+
+mappdc:OrganizationShape
+  a sh:NodeShape ;
+  sh:targetClass schema:Organization ;
+  sh:property [ sh:path schema:name ; sh:minCount 1 ] ;
+  sh:property [ sh:path datacite:hasIdentifier ; sh:node mappdc:OrganizationIdentifierShape ] .
+
+mappdc:PersonalIdentifierShape
+  a sh:NodeShape ;
+  sh:class datacite:PersonalIdentifier ;
+  sh:property [ sh:path literal:hasLiteralValue ; sh:datatype xsd:string ; sh:minCount 1 ] ;
+  sh:property [ sh:path datacite:usesIdentifierScheme ; sh:hasValue datacite:orcid ; sh:minCount 1 ; sh:maxCount 1 ] .
+
+mappdc:OrganizationIdentifierShape
+  a sh:NodeShape ;
+  sh:class datacite:OrganizationIdentifier ;
+  sh:property [ sh:path literal:hasLiteralValue ; sh:datatype xsd:string ; sh:minCount 1 ] ;
+  sh:property [ sh:path datacite:usesIdentifierScheme ; sh:in ( datacite:ror datacite:isni ) ; sh:minCount 1 ; sh:maxCount 1 ] .
+
+### Contributor shape (agent with CRediT role)
+
+mappdc:ContributorShape
+  a sh:NodeShape ;
+  sh:or (
+    [ sh:class schema:Person ]
+    [ sh:class schema:Organization ]
+  ) ;
+  sh:property [ sh:path prov:hadRole ; sh:node mappdc:CreditRoleShape ; sh:minCount 1 ] .
+
+mappdc:CreditRoleShape
+  a sh:NodeShape ;
+  sh:class skos:Concept ;
+  sh:property [ sh:path skos:inScheme ; sh:hasValue mappdc:CreditRoleScheme ; sh:minCount 1 ; sh:maxCount 1 ] .
+
+### Related identifier node shape
+
+mappdc:RelatedIdentifierShape
+  a sh:NodeShape ;
+  sh:targetClass mappdc:RelatedIdentifier ;
+  sh:property [ sh:path literal:hasLiteralValue ; sh:datatype xsd:string ; sh:minCount 1 ] ;
+  sh:property [ sh:path datacite:usesIdentifierScheme ; sh:class datacite:IdentifierScheme ; sh:minCount 1 ; sh:maxCount 1 ] .
+
+### Funding shape
+
+mappdc:FundingReferenceShape
+  a sh:NodeShape ;
+  sh:targetClass mappdc:FundingReference ;
+  sh:property [ sh:path mappdc:funder ; sh:class schema:Organization ; sh:minCount 1 ] ;
+  sh:property [ sh:path mappdc:awardNumber ; sh:datatype xsd:string ] ;
+  sh:property [ sh:path mappdc:awardTitle ; sh:datatype rdf:langString ] ;
+  sh:property [ sh:path mappdc:awardURI ; sh:datatype xsd:anyURI ] .
+
+### GeoLocation shape
+
+mappdc:GeoLocationShape
+  a sh:NodeShape ;
+  sh:targetClass mappdc:GeoLocation ;
+  # Require either place or a lat/long point
+  sh:or (
+    [ sh:property [ sh:path mappdc:place ; sh:datatype rdf:langString ; sh:minCount 1 ] ]
+    [ sh:and (
+        [ sh:property [ sh:path wgs84:lat ; sh:datatype xsd:decimal ; sh:minCount 1 ; sh:maxCount 1 ] ]
+        [ sh:property [ sh:path wgs84:long ; sh:datatype xsd:decimal ; sh:minCount 1 ; sh:maxCount 1 ] ]
+      ) ]
+  ) ;
+  # Optional bounding box
+  sh:property [ sh:path mappdc:boxWest ; sh:datatype xsd:decimal ] ;
+  sh:property [ sh:path mappdc:boxEast ; sh:datatype xsd:decimal ] ;
+  sh:property [ sh:path mappdc:boxSouth ; sh:datatype xsd:decimal ] ;
+  sh:property [ sh:path mappdc:boxNorth ; sh:datatype xsd:decimal ] .
+
+### Related item shape
+
+mappdc:RelatedItemShape
+  a sh:NodeShape ;
+  sh:targetClass mappdc:RelatedItem ;
+  sh:property [ sh:path mappdc:relationType ; sh:in ( mappdc:IsPartOf mappdc:HasPart mappdc:IsReferencedBy mappdc:References mappdc:IsDerivedFrom mappdc:IsSourceOf mappdc:IsNewVersionOf mappdc:IsPreviousVersionOf mappdc:IsIdenticalTo mappdc:IsSupplementTo mappdc:IsSupplementedBy ) ; sh:minCount 1 ; sh:maxCount 1 ] ;
+  sh:property [ sh:path dcterms:title ; sh:datatype rdf:langString ] ;
+  sh:property [ sh:path mappdc:relatedItemType ; sh:class skos:Concept ] ;
+  # Allow identifiers on the related item using the same pattern
+  sh:property [ sh:path datacite:hasIdentifier ; sh:node mappdc:PrimaryIdentifierShape ] ;
+  sh:property [ sh:path datacite:hasIdentifier ; sh:node mappdc:AlternateIdentifierShape ] .
+
+### Preclinical shapes (species, genes, treatment)
+
+mappdc:PreclinicalStudyShape
+  a sh:NodeShape ;
+  sh:targetClass mappdc:PreclinicalStudy ;
+  sh:property [ sh:path mappdc:hasSpecies ; sh:class skos:Concept ; sh:minCount 0 ] ;
+  sh:property [ sh:path mappdc:hasGene ; sh:node mappdc:GeneShape ] ;
+  sh:property [ sh:path mappdc:hasEndpoint ; sh:class mappdc:Endpoint ] ;
+  sh:property [ sh:path mappdc:hasRecordingSession ; sh:class mappdc:RecordingSession ] ;
+  sh:property [ sh:path mappdc:hasEthicalApproval ; sh:class mappdc:EthicalApproval ] .
+
+mappdc:GeneShape
+  a sh:NodeShape ;
+  sh:targetClass mappdc:Gene ;
+  sh:property [ sh:path mappdc:geneSymbol ; sh:datatype xsd:string ; sh:minCount 0 ] ;
+  sh:property [ sh:path mappdc:geneName ; sh:datatype xsd:string ; sh:minCount 0 ] ;
+  sh:property [ sh:path mappdc:geneAccessionId ; sh:datatype xsd:string ; sh:minCount 0 ] ;
+  sh:property [ sh:path mappdc:geneChromosomeLocation ; sh:datatype xsd:string ; sh:minCount 0 ] ;
+  sh:property [ sh:path mappdc:geneMutationType ; sh:class skos:Concept ; sh:minCount 0 ] ;
+  sh:property [ sh:path mappdc:alleleAccessionId ; sh:datatype xsd:string ; sh:minCount 0 ] ;
+  sh:property [ sh:path mappdc:alleleSymbol ; sh:datatype xsd:string ; sh:minCount 0 ] .
+
+mappdc:InterventionShape
+  a sh:NodeShape ;
+  sh:targetClass mappdc:Intervention ;
+  sh:property [ sh:path mappdc:treatmentName ; sh:datatype xsd:string ; sh:minCount 0 ] ;
+  sh:property [ sh:path mappdc:treatmentProtocol ; sh:datatype xsd:string ; sh:minCount 0 ] ;
+  sh:property [ sh:path mappdc:treatmentDesign ; sh:datatype xsd:string ; sh:minCount 0 ] ;
+  sh:property [ sh:path mappdc:hasDosingRegimen ; sh:class mappdc:DosingRegimen ; sh:minCount 0 ] ;
+  sh:property [ sh:path mappdc:hasRoute ; sh:class skos:Concept ; sh:minCount 0 ] .

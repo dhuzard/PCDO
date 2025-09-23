@@ -1,0 +1,16 @@
+@prefix : <https://w3id.org/preclindo/ontology/pcdo/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+
+<https://w3id.org/preclindo/ontology/pcdo>
+  a owl:Ontology ;
+  dcterms:title "Preclinical DataCite Ontology (PCDO)"@en ;
+  dcterms:description "Ontology for preclinical studies aligned to DataCite; ships with SHACL, examples, and developer assets."@en ;
+  dcterms:creator [ a foaf:Person ; foaf:name "PCDO Maintainers" ] ;
+  dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
+  vann:preferredNamespacePrefix "pcdo" ;
+  vann:preferredNamespaceUri "https://w3id.org/preclindo/ontology/pcdo/" ;
+  owl:versionIRI <https://w3id.org/preclindo/ontology/pcdo/0.1.0> .
+

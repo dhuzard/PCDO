@@ -1,0 +1,55 @@
+@prefix pcdo: <https://w3id.org/preclindo/ontology/pcdo/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix datacite: <http://purl.org/spar/datacite/> .
+@prefix schema: <http://schema.org/> .
+@prefix sosa: <http://www.w3.org/ns/sosa/> .
+@prefix obo: <http://purl.obolibrary.org/obo/> .
+@prefix unit: <http://qudt.org/vocab/unit/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://example.org/ds/PCDO_Dataset_1> a pcdo:Dataset ;
+  dcterms:title "Open preclinical dataset: Drug X in C57BL/6J mice"@en ;
+  dcterms:description "Minimal example dataset with one cohort, one intervention, and one outcome."@en ;
+  dcterms:issued "2024"^^xsd:gYear ;
+  dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
+  dcterms:creator <https://orcid.org/0000-0002-1825-0097> ;
+  dcterms:publisher <https://ror.org/03yrm5c26> ;
+  datacite:resourceTypeGeneral "Dataset" ;
+  datacite:identifierValue "10.1234/example.doi" ;
+  pcdo:describesStudy <https://example.org/study/S1> .
+
+<https://example.org/study/S1> a pcdo:Study ;
+  pcdo:isRandomized true ;
+  pcdo:isBlinded true ;
+  pcdo:sampleSize 10 ;
+  pcdo:hasCohort <https://example.org/cohort/C1> ;
+  pcdo:hasOutcomeMeasure <https://example.org/measure/OM1> ;
+  pcdo:hasAssay <https://example.org/assay/A1> .
+
+<https://example.org/cohort/C1> a pcdo:Cohort ;
+  pcdo:hasSubject <https://example.org/subject/M1> .
+
+<https://example.org/subject/M1> a pcdo:Subject ;
+  pcdo:hasSpecies obo:NCBITaxon_10090 ;
+  pcdo:hasSex obo:PATO_0000384 ; # male
+  pcdo:ageInDays 70 ;
+  pcdo:bodyWeightGrams 25.0 .
+
+<https://example.org/intervention/I1> a pcdo:Intervention ;
+  pcdo:appliesToCohort <https://example.org/cohort/C1> ;
+  pcdo:hasAgent obo:CHEBI_15365 ; # caffeine as example
+  pcdo:doseValue 10.0 ;
+  pcdo:hasDoseUnit unit:MilliGM ;
+  pcdo:routeLabel "i.p." ;
+  pcdo:scheduleLabel "once daily for 5 days" .
+
+<https://example.org/measure/OM1> a pcdo:OutcomeMeasure .
+
+<https://example.org/assay/A1> a pcdo:Assay ;
+  pcdo:observes <https://example.org/measure/OM1> .
+
+<https://example.org/obs/O1> a pcdo:Observation ;
+  sosa:observedProperty <https://example.org/measure/OM1> ;
+  sosa:hasFeatureOfInterest <https://example.org/subject/M1> ;
+  sosa:resultTime "2024-05-01T12:00:00Z"^^xsd:dateTime .
+

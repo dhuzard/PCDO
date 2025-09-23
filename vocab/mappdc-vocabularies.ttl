@@ -1,0 +1,83 @@
+@prefix mappdc: <http://purl.org/mapp/datacite-preclinical#> .
+@prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms:<http://purl.org/dc/terms/> .
+@prefix prov:   <http://www.w3.org/ns/prov#> .
+
+### Title types (optional support for DataCite titleType)
+
+mappdc:TitleTypeScheme a skos:ConceptScheme ;
+  dcterms:title "MAPPDC Title Types"@en ;
+  dcterms:description "Controlled list to classify dataset titles when DataCite titleType is required."@en .
+
+mappdc:AlternativeTitle a skos:Concept ;
+  skos:inScheme mappdc:TitleTypeScheme ;
+  skos:prefLabel "Alternative title"@en .
+
+mappdc:Subtitle a skos:Concept ;
+  skos:inScheme mappdc:TitleTypeScheme ;
+  skos:prefLabel "Subtitle"@en .
+
+mappdc:TranslatedTitle a skos:Concept ;
+  skos:inScheme mappdc:TitleTypeScheme ;
+  skos:prefLabel "Translated title"@en .
+
+mappdc:OtherTitle a skos:Concept ;
+  skos:inScheme mappdc:TitleTypeScheme ;
+  skos:prefLabel "Other"@en .
+
+### Mutation types (placeholder; prefer Sequence Ontology IRIs when available)
+
+mappdc:MutationTypeScheme a skos:ConceptScheme ;
+  dcterms:title "MAPPDC Mutation Types"@en ;
+  dcterms:description "Placeholder mutation types; replace with SO terms where possible."@en .
+
+mappdc:Knockout a skos:Concept ;
+  skos:inScheme mappdc:MutationTypeScheme ;
+  skos:prefLabel "Knockout"@en .
+
+mappdc:Knockin a skos:Concept ;
+  skos:inScheme mappdc:MutationTypeScheme ;
+  skos:prefLabel "Knock-in"@en .
+
+mappdc:PointMutation a skos:Concept ;
+  skos:inScheme mappdc:MutationTypeScheme ;
+  skos:prefLabel "Point mutation"@en .
+
+### Relation types (DataCite relationType values)
+
+mappdc:RelationTypeScheme a skos:ConceptScheme ;
+  dcterms:title "MAPPDC DataCite Relation Types"@en ;
+  dcterms:description "Subset of DataCite relation types for related items/identifiers."@en .
+
+mappdc:IsPartOf a skos:Concept ; skos:inScheme mappdc:RelationTypeScheme ; skos:prefLabel "IsPartOf"@en .
+mappdc:HasPart a skos:Concept ; skos:inScheme mappdc:RelationTypeScheme ; skos:prefLabel "HasPart"@en .
+mappdc:IsReferencedBy a skos:Concept ; skos:inScheme mappdc:RelationTypeScheme ; skos:prefLabel "IsReferencedBy"@en .
+mappdc:References a skos:Concept ; skos:inScheme mappdc:RelationTypeScheme ; skos:prefLabel "References"@en .
+mappdc:IsDerivedFrom a skos:Concept ; skos:inScheme mappdc:RelationTypeScheme ; skos:prefLabel "IsDerivedFrom"@en .
+mappdc:IsSourceOf a skos:Concept ; skos:inScheme mappdc:RelationTypeScheme ; skos:prefLabel "IsSourceOf"@en .
+mappdc:IsNewVersionOf a skos:Concept ; skos:inScheme mappdc:RelationTypeScheme ; skos:prefLabel "IsNewVersionOf"@en .
+mappdc:IsPreviousVersionOf a skos:Concept ; skos:inScheme mappdc:RelationTypeScheme ; skos:prefLabel "IsPreviousVersionOf"@en .
+mappdc:IsIdenticalTo a skos:Concept ; skos:inScheme mappdc:RelationTypeScheme ; skos:prefLabel "IsIdenticalTo"@en .
+mappdc:IsSupplementTo a skos:Concept ; skos:inScheme mappdc:RelationTypeScheme ; skos:prefLabel "IsSupplementTo"@en .
+mappdc:IsSupplementedBy a skos:Concept ; skos:inScheme mappdc:RelationTypeScheme ; skos:prefLabel "IsSupplementedBy"@en .
+
+### CRediT contributor roles (subset)
+
+mappdc:CreditRoleScheme a skos:ConceptScheme ;
+  dcterms:title "CRediT Contributor Roles"@en ;
+  dcterms:description "Subset of the CRediT taxonomy expressed as SKOS concepts and prov:Role."@en .
+
+mappdc:roleConceptualization a skos:Concept, prov:Role ; skos:inScheme mappdc:CreditRoleScheme ; skos:prefLabel "Conceptualization"@en .
+mappdc:roleDataCuration a skos:Concept, prov:Role ; skos:inScheme mappdc:CreditRoleScheme ; skos:prefLabel "Data Curation"@en .
+mappdc:roleFormalAnalysis a skos:Concept, prov:Role ; skos:inScheme mappdc:CreditRoleScheme ; skos:prefLabel "Formal Analysis"@en .
+mappdc:roleFundingAcquisition a skos:Concept, prov:Role ; skos:inScheme mappdc:CreditRoleScheme ; skos:prefLabel "Funding Acquisition"@en .
+mappdc:roleInvestigation a skos:Concept, prov:Role ; skos:inScheme mappdc:CreditRoleScheme ; skos:prefLabel "Investigation"@en .
+mappdc:roleMethodology a skos:Concept, prov:Role ; skos:inScheme mappdc:CreditRoleScheme ; skos:prefLabel "Methodology"@en .
+mappdc:roleProjectAdministration a skos:Concept, prov:Role ; skos:inScheme mappdc:CreditRoleScheme ; skos:prefLabel "Project Administration"@en .
+mappdc:roleResources a skos:Concept, prov:Role ; skos:inScheme mappdc:CreditRoleScheme ; skos:prefLabel "Resources"@en .
+mappdc:roleSoftware a skos:Concept, prov:Role ; skos:inScheme mappdc:CreditRoleScheme ; skos:prefLabel "Software"@en .
+mappdc:roleSupervision a skos:Concept, prov:Role ; skos:inScheme mappdc:CreditRoleScheme ; skos:prefLabel "Supervision"@en .
+mappdc:roleValidation a skos:Concept, prov:Role ; skos:inScheme mappdc:CreditRoleScheme ; skos:prefLabel "Validation"@en .
+mappdc:roleVisualization a skos:Concept, prov:Role ; skos:inScheme mappdc:CreditRoleScheme ; skos:prefLabel "Visualization"@en .
+mappdc:roleWritingOriginalDraft a skos:Concept, prov:Role ; skos:inScheme mappdc:CreditRoleScheme ; skos:prefLabel "Writing – Original Draft"@en .
+mappdc:roleWritingReviewEditing a skos:Concept, prov:Role ; skos:inScheme mappdc:CreditRoleScheme ; skos:prefLabel "Writing – Review & Editing"@en .

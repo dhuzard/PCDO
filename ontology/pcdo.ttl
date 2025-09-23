@@ -1,0 +1,189 @@
+@prefix pcdo: <https://w3id.org/preclindo/ontology/pcdo/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix schema: <http://schema.org/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix sosa: <http://www.w3.org/ns/sosa/> .
+@prefix time: <http://www.w3.org/2006/time#> .
+@prefix qudt: <http://qudt.org/schema/qudt/> .
+@prefix unit: <http://qudt.org/vocab/unit/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix datacite: <http://purl.org/spar/datacite/> .
+@prefix obo: <http://purl.obolibrary.org/obo/> .
+
+<https://w3id.org/preclindo/ontology/pcdo>
+  a owl:Ontology ;
+  dcterms:title "Preclinical DataCite Ontology (PCDO)"@en ;
+  dcterms:description "A minimal, reusable ontology capturing preclinical study semantics aligned to DataCite for DOI deposition."@en ;
+  dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
+  owl:versionIRI <https://w3id.org/preclindo/ontology/pcdo/0.1.0> .
+
+# Core classes
+pcdo:Dataset a owl:Class ;
+  rdfs:label "Dataset"@en ;
+  rdfs:comment "The DOI-minted dataset deliverable."@en ;
+  rdfs:subClassOf dcat:Dataset , schema:Dataset .
+
+pcdo:Study a owl:Class ;
+  rdfs:label "Study"@en ;
+  rdfs:comment "A preclinical investigation comprising cohorts, interventions, assays, and outcomes."@en ;
+  rdfs:subClassOf obo:OBI_0000066 .
+
+pcdo:Cohort a owl:Class ;
+  rdfs:label "Cohort"@en ;
+  rdfs:comment "Group of subjects with shared characteristics and treatment."@en .
+
+pcdo:Subject a owl:Class ;
+  rdfs:label "Subject"@en ;
+  rdfs:comment "An experimental animal subject (organism)."@en ;
+  rdfs:subClassOf obo:OBI_0100026 .
+
+pcdo:Intervention a owl:Class ;
+  rdfs:label "Intervention"@en ;
+  rdfs:comment "A planned process such as a drug administration or procedure."@en ;
+  rdfs:subClassOf obo:OBI_0000011 .
+
+pcdo:Assay a owl:Class ;
+  rdfs:label "Assay"@en ;
+  rdfs:comment "An assay used to generate observations (measurements)."@en ;
+  rdfs:subClassOf obo:OBI_0000070 .
+
+pcdo:OutcomeMeasure a owl:Class ;
+  rdfs:label "Outcome Measure"@en ;
+  rdfs:comment "An observable property measured as a study outcome."@en ;
+  rdfs:subClassOf sosa:ObservableProperty .
+
+pcdo:Observation a owl:Class ;
+  rdfs:label "Observation"@en ;
+  rdfs:comment "A concrete observation linking an assay to a feature of interest and result."@en ;
+  rdfs:subClassOf sosa:Observation .
+
+pcdo:Sample a owl:Class ;
+  rdfs:label "Sample"@en ;
+  rdfs:comment "A specimen derived from a subject."@en ;
+  rdfs:subClassOf obo:OBI_0000747 .
+
+pcdo:EthicsApproval a owl:Class ;
+  rdfs:label "Ethics Approval"@en ;
+  rdfs:comment "An institutional ethics approval document or identifier."@en ;
+  rdfs:subClassOf obo:IAO_0000311 .
+
+# Object properties
+pcdo:describesStudy a owl:ObjectProperty ;
+  rdfs:domain pcdo:Dataset ;
+  rdfs:range pcdo:Study ;
+  rdfs:label "describes study"@en .
+
+pcdo:hasEthicsApproval a owl:ObjectProperty ;
+  rdfs:domain pcdo:Dataset ;
+  rdfs:range pcdo:EthicsApproval ;
+  rdfs:label "has ethics approval"@en .
+
+pcdo:hasCohort a owl:ObjectProperty ;
+  rdfs:domain pcdo:Study ;
+  rdfs:range pcdo:Cohort ;
+  rdfs:label "has cohort"@en .
+
+pcdo:hasAssay a owl:ObjectProperty ;
+  rdfs:domain pcdo:Study ;
+  rdfs:range pcdo:Assay ;
+  rdfs:label "has assay"@en .
+
+pcdo:hasOutcomeMeasure a owl:ObjectProperty ;
+  rdfs:domain pcdo:Study ;
+  rdfs:range pcdo:OutcomeMeasure ;
+  rdfs:label "has outcome measure"@en .
+
+pcdo:hasSubject a owl:ObjectProperty ;
+  rdfs:domain pcdo:Cohort ;
+  rdfs:range pcdo:Subject ;
+  rdfs:label "has subject"@en .
+
+pcdo:hasSpecies a owl:ObjectProperty ;
+  rdfs:domain pcdo:Subject ;
+  rdfs:label "has species"@en ;
+  rdfs:comment "Link to an NCBITaxon IRI."@en .
+
+pcdo:hasStrain a owl:ObjectProperty ;
+  rdfs:domain pcdo:Subject ;
+  rdfs:label "has strain"@en .
+
+pcdo:hasSex a owl:ObjectProperty ;
+  rdfs:domain pcdo:Subject ;
+  rdfs:label "has sex"@en ;
+  rdfs:comment "Link to a PATO sex class (male/female/unknown)."@en .
+
+pcdo:appliesToCohort a owl:ObjectProperty ;
+  rdfs:domain pcdo:Intervention ;
+  rdfs:range pcdo:Cohort ;
+  rdfs:label "applies to cohort"@en .
+
+pcdo:hasAgent a owl:ObjectProperty ;
+  rdfs:domain pcdo:Intervention ;
+  rdfs:label "has agent"@en ;
+  rdfs:comment "The active agent, e.g., a CHEBI chemical."@en .
+
+pcdo:hasRoute a owl:ObjectProperty ;
+  rdfs:domain pcdo:Intervention ;
+  rdfs:label "has route"@en .
+
+pcdo:hasSchedule a owl:ObjectProperty ;
+  rdfs:domain pcdo:Intervention ;
+  rdfs:label "has schedule"@en .
+
+pcdo:observes a owl:ObjectProperty ;
+  rdfs:domain pcdo:Assay ;
+  rdfs:range pcdo:OutcomeMeasure ;
+  rdfs:label "observes"@en .
+
+# Datatype properties (pragmatic minimum)
+pcdo:ageInDays a owl:DatatypeProperty ;
+  rdfs:domain pcdo:Subject ;
+  rdfs:range xsd:integer ;
+  rdfs:label "age in days"@en .
+
+pcdo:bodyWeightGrams a owl:DatatypeProperty ;
+  rdfs:domain pcdo:Subject ;
+  rdfs:range xsd:decimal ;
+  rdfs:label "body weight (g)"@en .
+
+pcdo:doseValue a owl:DatatypeProperty ;
+  rdfs:domain pcdo:Intervention ;
+  rdfs:range xsd:decimal ;
+  rdfs:label "dose value"@en .
+
+pcdo:hasDoseUnit a owl:ObjectProperty ;
+  rdfs:domain pcdo:Intervention ;
+  rdfs:label "has dose unit"@en ;
+  rdfs:comment "Link to a QUDT unit IRI (e.g., unit:MilliGM)."@en .
+
+pcdo:routeLabel a owl:DatatypeProperty ;
+  rdfs:domain pcdo:Intervention ;
+  rdfs:range xsd:string ;
+  rdfs:label "route label"@en .
+
+pcdo:scheduleLabel a owl:DatatypeProperty ;
+  rdfs:domain pcdo:Intervention ;
+  rdfs:range xsd:string ;
+  rdfs:label "schedule label"@en .
+
+pcdo:isRandomized a owl:DatatypeProperty ;
+  rdfs:domain pcdo:Study ;
+  rdfs:range xsd:boolean ;
+  rdfs:label "is randomized"@en .
+
+pcdo:isBlinded a owl:DatatypeProperty ;
+  rdfs:domain pcdo:Study ;
+  rdfs:range xsd:boolean ;
+  rdfs:label "is blinded"@en .
+
+pcdo:sampleSize a owl:DatatypeProperty ;
+  rdfs:domain pcdo:Study ;
+  rdfs:range xsd:integer ;
+  rdfs:label "sample size"@en .
+
+# Helpful disjointness
+pcdo:Subject owl:disjointWith pcdo:Intervention , pcdo:Assay , pcdo:Observation .
+

@@ -1,5 +1,8 @@
 # Preclinical DataCite Ontology (PCDO)
 
+[![Validate Ontology](https://github.com/dhuzard/datacite-PreclinDOI/actions/workflows/validate.yml/badge.svg)](https://github.com/dhuzard/datacite-PreclinDOI/actions/workflows/validate.yml)
+[![ROBOT Build](https://github.com/dhuzard/datacite-PreclinDOI/actions/workflows/robot.yml/badge.svg)](https://github.com/dhuzard/datacite-PreclinDOI/actions/workflows/robot.yml)
+
 A minimal, reusable ontology for describing preclinical studies and their DOI‑minted datasets. PCDO models just enough study semantics (study, cohorts, subjects, interventions, assays, outcomes) to validate DataCite‑ready metadata, enable practical queries, and integrate with applications via JSON‑LD. Constraints are enforced with SHACL; the ontology aligns with established web and biomedical standards.
 
 - Base ontology IRI: https://w3id.org/preclindo/ontology/pcdo
@@ -99,10 +102,12 @@ arq --data=ontology/pcdo.ttl --data=examples/abox-minimal.ttl --query=queries/cq
 ```
 
 ## JSON‑LD for Developers
-Use `ontology/context.jsonld` to serialize compact payloads from apps:
+Use the latest context `ontology/context.jsonld` or pin a version (recommended for production) `ontology/context/0.1.jsonld`.
+
+Example using the versioned context:
 ```json
 {
-  "@context": "https://w3id.org/preclindo/ontology/context.jsonld",
+  "@context": "https://w3id.org/preclindo/ontology/context/0.1.jsonld",
   "@id": "https://example.org/ds/PCDO_Dataset_1",
   "@type": "Dataset",
   "title": "Open preclinical dataset: Drug X in C57BL/6J mice",
@@ -124,6 +129,17 @@ Use `ontology/context.jsonld` to serialize compact payloads from apps:
   - Or: `python tooling/validate.py`
 - CI
   - GitHub Actions `Validate Ontology` runs on PRs and main; fails build on SHACL non‑conformance.
+
+### ROBOT Build (artifacts and imports)
+- One‑shot script
+  - `bash tooling/robot-build.sh`
+- Makefile targets (Linux/macOS/WSL/CI)
+  - `make ROBOT=robot imports` — generate `imports/*.owl` via MIREOT (OBI/IAO)
+  - `make ROBOT=robot convert` — produce `dist/pcdo.owl` and `dist/pcdo.jsonld`
+  - `make ROBOT=robot report` — write `reports/robot-report.tsv`
+  - `make ROBOT=robot reason` — produce `dist/pcdo-reasoned.ttl` with HermiT
+
+Note: Replace `OWNER/REPO` in the badges with your GitHub org/repo slug to activate status badges.
 
 ## Programmatic Usage (Python)
 ```python

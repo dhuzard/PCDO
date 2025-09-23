@@ -1,6 +1,7 @@
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix pcdo: <https://w3id.org/preclindo/ontology/pcdo/> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix skosxl: <http://www.w3.org/2008/05/skos-xl#> .
 
 pcdo:AdministrationRouteScheme a skos:ConceptScheme ;
   dcterms:title "PCDO Administration Routes"@en ;
@@ -9,15 +10,17 @@ pcdo:AdministrationRouteScheme a skos:ConceptScheme ;
 pcdo:Route_IP a skos:Concept ;
   skos:inScheme pcdo:AdministrationRouteScheme ;
   skos:prefLabel "intraperitoneal"@en ;
-  skos:altLabel "i.p."@en .
+  skos:altLabel "i.p."@en ;
+  skos:exactMatch <http://purl.obolibrary.org/obo/NCIT_C38258> .
 
 pcdo:Route_IV a skos:Concept ;
   skos:inScheme pcdo:AdministrationRouteScheme ;
   skos:prefLabel "intravenous"@en ;
-  skos:altLabel "i.v."@en .
+  skos:altLabel "i.v."@en ;
+  skos:exactMatch <http://purl.obolibrary.org/obo/NCIT_C38276> .
 
 pcdo:Route_PO a skos:Concept ;
   skos:inScheme pcdo:AdministrationRouteScheme ;
   skos:prefLabel "per os (oral)"@en ;
-  skos:altLabel "p.o."@en .
-
+  skos:altLabel "p.o."@en ;
+  skos:exactMatch <http://purl.obolibrary.org/obo/NCIT_C38288> .

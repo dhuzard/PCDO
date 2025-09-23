@@ -1,0 +1,52 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@vocab": "https://w3id.org/preclindo/ontology/pcdo/",
+    "pcdo": "https://w3id.org/preclindo/ontology/pcdo/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "schema": "http://schema.org/",
+    "datacite": "http://purl.org/spar/datacite/",
+    "prov": "http://www.w3.org/ns/prov#",
+    "sosa": "http://www.w3.org/ns/sosa/",
+    "unit": "http://qudt.org/vocab/unit/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+
+    "id": "@id",
+    "type": "@type",
+
+    "title": { "@id": "dcterms:title" },
+    "description": { "@id": "dcterms:description" },
+    "license": { "@id": "dcterms:license", "@type": "@id" },
+    "issued": { "@id": "dcterms:issued", "@type": "xsd:gYear" },
+    "creator": { "@id": "dcterms:creator", "@type": "@id" , "@container": "@set"},
+    "creators": { "@id": "dcterms:creator", "@type": "@id", "@container": "@set" },
+    "publisher": { "@id": "dcterms:publisher", "@type": "@id" },
+    "identifierValue": { "@id": "datacite:identifierValue" },
+    "resourceTypeGeneral": { "@id": "datacite:resourceTypeGeneral" },
+
+    "describesStudy": { "@id": "pcdo:describesStudy", "@type": "@id" },
+    "hasEthicsApproval": { "@id": "pcdo:hasEthicsApproval", "@type": "@id" },
+    "hasCohort": { "@id": "pcdo:hasCohort", "@type": "@id", "@container": "@set" },
+    "hasSubject": { "@id": "pcdo:hasSubject", "@type": "@id", "@container": "@set" },
+    "hasAssay": { "@id": "pcdo:hasAssay", "@type": "@id", "@container": "@set" },
+    "hasOutcomeMeasure": { "@id": "pcdo:hasOutcomeMeasure", "@type": "@id", "@container": "@set" },
+    "hasSpecies": { "@id": "pcdo:hasSpecies", "@type": "@id" },
+    "hasSex": { "@id": "pcdo:hasSex", "@type": "@id" },
+
+    "hasRoute": { "@id": "pcdo:hasRoute", "@type": "@id" },
+
+    "ageInDays": { "@id": "pcdo:ageInDays", "@type": "xsd:integer" },
+    "bodyWeightGrams": { "@id": "pcdo:bodyWeightGrams", "@type": "xsd:decimal" },
+    "doseValue": { "@id": "pcdo:doseValue", "@type": "xsd:decimal" },
+    "hasDoseUnit": { "@id": "pcdo:hasDoseUnit", "@type": "@id" },
+    "routeLabel": { "@id": "pcdo:routeLabel" },
+    "scheduleLabel": { "@id": "pcdo:scheduleLabel" },
+    "isRandomized": { "@id": "pcdo:isRandomized", "@type": "xsd:boolean" },
+    "isBlinded": { "@id": "pcdo:isBlinded", "@type": "xsd:boolean" },
+    "sampleSize": { "@id": "pcdo:sampleSize", "@type": "xsd:integer" },
+
+    "orcid": { "@id": "schema:sameAs", "@type": "@id" },
+    "ror": { "@id": "schema:affiliation", "@type": "@id" }
+  }
+}
+

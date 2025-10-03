@@ -1,9 +1,9 @@
-# Preclinical DataCite Ontology (PCDO)
+﻿# Preclinical DataCite Ontology (PCDO)
 
 [![Validate Ontology](https://github.com/dhuzard/datacite-PreclinDOI/actions/workflows/validate.yml/badge.svg)](https://github.com/dhuzard/datacite-PreclinDOI/actions/workflows/validate.yml)
 [![ROBOT Build](https://github.com/dhuzard/datacite-PreclinDOI/actions/workflows/robot.yml/badge.svg)](https://github.com/dhuzard/datacite-PreclinDOI/actions/workflows/robot.yml)
 
-A minimal, reusable ontology for describing preclinical studies and their DOI‑minted datasets. PCDO models just enough study semantics (study, cohorts, subjects, interventions, assays, outcomes) to validate DataCite‑ready metadata, enable practical queries, and integrate with applications via JSON‑LD. Constraints are enforced with SHACL; the ontology aligns with established web and biomedical standards.
+A minimal, reusable ontology for describing preclinical studies and their DOI-minted datasets. PCDO models just enough study semantics (study, cohorts, subjects, interventions, assays, outcomes) to validate DataCite-ready metadata, enable practical queries, and integrate with applications via JSON-LD. Constraints are enforced with SHACL; the ontology aligns with established web and biomedical standards.
 
 - Base ontology IRI: https://w3id.org/preclindo/ontology/pcdo
 - Version IRI: https://w3id.org/preclindo/ontology/pcdo/0.1.0
@@ -11,13 +11,13 @@ A minimal, reusable ontology for describing preclinical studies and their DOI‑
 - License: CC BY 4.0
 
 ## Why PCDO?
-- Interoperable: Aligns with DCAT/Schema.org (datasets), PROV (provenance), OBI/IAO (study/assay/documents), SOSA (observations), OWL‑Time (temporal), QUDT (units), and OBO (NCBITaxon, CHEBI, PATO).
-- DataCite‑ready: SHACL shapes check practical DataCite minima (DOI, title, creators, publisher, year, license, resourceTypeGeneral) plus preclinical specifics.
-- Developer‑friendly: JSON‑LD context, minimal example, edge cases, and SPARQL queries included. Simple PowerShell/Python validation and CI.
-- Lean and extensible: TBox stays small; real‑world constraints live in SHACL; upgrade path to richer units and temporal modeling when needed.
+- Interoperable: Aligns with DCAT/Schema.org (datasets), PROV (provenance), OBI/IAO (study/assay/documents), SOSA (observations), OWL-Time (temporal), QUDT (units), and OBO (NCBITaxon, CHEBI, PATO).
+- DataCite-ready: SHACL shapes check practical DataCite minima (DOI, title, creators, publisher, year, license, resourceTypeGeneral) plus preclinical specifics.
+- Developer-friendly: JSON-LD context, minimal example, edge cases, and SPARQL queries included. Simple PowerShell/Python validation and CI.
+- Lean and extensible: TBox stays small; real-world constraints live in SHACL; upgrade path to richer units and temporal modeling when needed.
 
 ## Scope
-- Dataset‑level (what you publish and cite) plus essential in vivo study semantics needed for search, QA, and reuse.
+- Dataset-level (what you publish and cite) plus essential in vivo study semantics needed for search, QA, and reuse.
 - Typical subjects: animal models (e.g., mouse, rat). Optional samples/specimens.
 - Interventions: drugs/biologics (CHEBI), procedures; simple dose/route/schedule.
 - Outcomes: assays, observed properties, observations/results.
@@ -28,12 +28,12 @@ Out of scope for 0.1: detailed protocol steps, comprehensive instrumentation pro
 - Ontology core: `ontology/pcdo.ttl`
 - Standards alignment: `ontology/pcdo-align.ttl`
 - Ontology metadata/imports: `ontology/pcdo-metadata.ttl`
-- JSON‑LD context: `ontology/context.jsonld`
+- JSON-LD context: `ontology/context.jsonld`
 - SHACL shapes: `shapes/pcdo-shapes.ttl`
 - Examples (ABox): `examples/abox-minimal.ttl`, `examples/abox-edge-cases.ttl`
 - SPARQL queries: `queries/`
 - Validation script/CI: `tooling/validate.ps1`, `tooling/validate.py`, `.github/workflows/validate.yml`
-- Docs: `docs/MODEL.md`, `docs/ALIGNMENTS.md`, `docs/CHANGELOG.md`
+- Docs: `docs/MODEL.md`, `docs/ALIGNMENTS.md`, `docs/CHANGELOG.md`, [`PCDO.html`](PCDO.html) (LODE-generated HTML documentation)
 
 ## Namespaces and IRIs
 - Prefixes: `pcdo, dcterms, datacite, schema, prov, time, sosa, qudt, unit, obi, iao, dcat, obo`
@@ -41,17 +41,17 @@ Out of scope for 0.1: detailed protocol steps, comprehensive instrumentation pro
 
 ## Core Model (selected)
 - Classes
-  - `pcdo:Dataset` ⊑ `dcat:Dataset`, `schema:Dataset` — the DOI‑minted dataset deliverable.
-  - `pcdo:Study` ⊑ `obo:OBI_0000066` — investigation with cohorts, interventions, assays, outcomes.
-  - `pcdo:Cohort` — subjects grouped by shared characteristics.
-  - `pcdo:Subject` ⊑ `obo:OBI_0100026` — animal subject; link to `NCBITaxon` species.
-  - `pcdo:Intervention` ⊑ `obo:OBI_0000011` — drug/procedure; agent via `CHEBI` when chemical.
-  - `pcdo:Assay` ⊑ `obo:OBI_0000070` — method used to measure outcomes.
-  - `pcdo:OutcomeMeasure` ⊑ `sosa:ObservableProperty` — the measured property.
-  - `pcdo:Observation` ⊑ `sosa:Observation` — an actual measurement (time‑stamped).
-  - `pcdo:Sample` ⊑ `obo:OBI_0000747` — optional specimens.
-  - `pcdo:EthicsApproval` ⊑ `obo:IAO_0000311` — ethics document or identifier.
-- Object properties (high‑level)
+  - `pcdo:Dataset` subclass of `dcat:Dataset`, `schema:Dataset` - the DOI-minted dataset deliverable.
+  - `pcdo:Study` subclass of `obo:OBI_0000066` - investigation with cohorts, interventions, assays, outcomes.
+  - `pcdo:Cohort` - subjects grouped by shared characteristics.
+  - `pcdo:Subject` subclass of `obo:OBI_0100026` - animal subject; link to `NCBITaxon` species.
+  - `pcdo:Intervention` subclass of `obo:OBI_0000011` - drug/procedure; agent via `CHEBI` when chemical.
+  - `pcdo:Assay` subclass of `obo:OBI_0000070` - method used to measure outcomes.
+  - `pcdo:OutcomeMeasure` subclass of `sosa:ObservableProperty` - the measured property.
+  - `pcdo:Observation` subclass of `sosa:Observation` - an actual measurement (time-stamped).
+  - `pcdo:Sample` subclass of `obo:OBI_0000747` - optional specimens.
+  - `pcdo:EthicsApproval` subclass of `obo:IAO_0000311` - ethics document or identifier.
+- Object properties (high-level)
   - Dataset: `pcdo:describesStudy`, `pcdo:hasEthicsApproval`.
   - Study: `pcdo:hasCohort`, `pcdo:hasAssay`, `pcdo:hasOutcomeMeasure`.
   - Cohort/Subject: `pcdo:hasSubject`, `pcdo:hasSpecies`, `pcdo:hasSex`, `pcdo:hasStrain`.
@@ -67,41 +67,41 @@ See `ontology/pcdo.ttl` for the authoritative TBox.
 ## Standards Alignment
 - DataCite: model DOIs via `datacite:identifierValue` and validate completeness in SHACL.
 - DCAT/Schema.org: subclassing enables discovery in catalog/search systems.
-- PROV‑O: `pcdo:Dataset` as `prov:Entity`; `pcdo:Study` as `prov:Activity` (hooks for pipelines).
+- PROV-O: `pcdo:Dataset` as `prov:Entity`; `pcdo:Study` as `prov:Activity` (hooks for pipelines).
 - OBI/IAO: anchor study/assay/document semantics to OBO.
 - SOSA/SSN: reuse of `Observation` and `ObservableProperty`.
-- OWL‑Time: reserved for future time intervals/dosing windows.
-- QUDT: units via `unit:*` IRIs; full quantity pattern is a post‑0.1 upgrade.
+- OWL-Time: reserved for future time intervals/dosing windows.
+- QUDT: units via `unit:*` IRIs; full quantity pattern is a post-0.1 upgrade.
 
-Machine‑readable mapping: `ontology/pcdo-align.ttl`. Rationale: `docs/ALIGNMENTS.md`.
+Machine-readable mapping: `ontology/pcdo-align.ttl`. Rationale: `docs/ALIGNMENTS.md`.
 
 ## SHACL Validation
 Shapes in `shapes/pcdo-shapes.ttl` check:
-- Dataset: DOI pattern `^10\.\d{4,9}/.+`, ≥1 creator, title, publisher, year, license IRI, `resourceTypeGeneral`, and a link to a study.
-- Study: ≥1 cohort and ≥1 outcome measure; `isRandomized`, `isBlinded`, `sampleSize > 0`.
-- Cohort: ≥1 subject.
+- Dataset: DOI pattern `^10\.\d{4,9}/.+`, >=1 creator, title, publisher, year, license IRI, `resourceTypeGeneral`, and a link to a study.
+- Study: >=1 cohort and >=1 outcome measure; `isRandomized`, `isBlinded`, `sampleSize > 0`.
+- Cohort: >=1 subject.
 - Subject: species is `NCBITaxon:*`, sex in {male, female, unknown}, positive age and weight.
 - Intervention: agent `CHEBI:*`, dose value > 0 with QUDT unit IRI.
 - Observation: `observedProperty`, `hasFeatureOfInterest`, and `resultTime` present.
 - Optional: ORCID URL format on `schema:Person` if used.
 
 ## Examples
-- Minimal valid instance: `examples/abox-minimal.ttl` — mouse study, single cohort, drug intervention, one outcome and observation, DOI and DataCite fields.
-- Expected failures: `examples/abox-edge-cases.ttl` — missing DOI, invalid ORCID, zero/negative values, missing species/sex, missing outcome measure.
+- Minimal valid instance: `examples/abox-minimal.ttl` - mouse study, single cohort, drug intervention, one outcome and observation, DOI and DataCite fields.
+- Expected failures: `examples/abox-edge-cases.ttl` - missing DOI, invalid ORCID, zero/negative values, missing species/sex, missing outcome measure.
 
 ## Queries (Competency Questions)
-- `queries/cq-datasets-ready-for-datacite.rq` — datasets that meet minimal DataCite requirements.
-- `queries/cq-invivo-rodent-studies.rq` — animal studies by taxon (general pattern; refine as needed).
-- `queries/cq-interventions-by-agent.rq` — group interventions by agent, show dose ranges.
-- `queries/cq-outcomes-by-assay.rq` — outcome measures per assay and count observations.
-- `queries/cq-missing-ethics.rq` — datasets without ethics approval.
+- `queries/cq-datasets-ready-for-datacite.rq` - datasets that meet minimal DataCite requirements.
+- `queries/cq-invivo-rodent-studies.rq` - animal studies by taxon (general pattern; refine as needed).
+- `queries/cq-interventions-by-agent.rq` - group interventions by agent, show dose ranges.
+- `queries/cq-outcomes-by-assay.rq` - outcome measures per assay and count observations.
+- `queries/cq-missing-ethics.rq` - datasets without ethics approval.
 
 Example (Apache Jena arq):
 ```
 arq --data=ontology/pcdo.ttl --data=examples/abox-minimal.ttl --query=queries/cq-datasets-ready-for-datacite.rq
 ```
 
-## JSON‑LD for Developers
+## JSON-LD for Developers
 Use the latest context `ontology/context.jsonld` or pin a version (recommended for production) `ontology/context/0.1.jsonld`.
 
 Example using the versioned context:
@@ -128,16 +128,16 @@ Example using the versioned context:
   - PowerShell: `./tooling/validate.ps1 -Install`
   - Or: `python tooling/validate.py`
 - CI
-  - GitHub Actions `Validate Ontology` runs on PRs and main; fails build on SHACL non‑conformance.
+  - GitHub Actions `Validate Ontology` runs on PRs and main; fails build on SHACL non-conformance.
 
 ### ROBOT Build (artifacts and imports)
-- One‑shot script
+- One-shot script
   - `bash tooling/robot-build.sh`
 - Makefile targets (Linux/macOS/WSL/CI)
-  - `make ROBOT=robot imports` — generate `imports/*.owl` via MIREOT (OBI/IAO)
-  - `make ROBOT=robot convert` — produce `dist/pcdo.owl` and `dist/pcdo.jsonld`
-  - `make ROBOT=robot report` — write `reports/robot-report.tsv`
-  - `make ROBOT=robot reason` — produce `dist/pcdo-reasoned.ttl` with HermiT
+  - `make ROBOT=robot imports` - generate `imports/*.owl` via MIREOT (OBI/IAO)
+  - `make ROBOT=robot convert` - produce `dist/pcdo.owl` and `dist/pcdo.jsonld`
+  - `make ROBOT=robot report` - write `reports/robot-report.tsv`
+  - `make ROBOT=robot reason` - produce `dist/pcdo-reasoned.ttl` with HermiT
 
 Note: Replace `OWNER/REPO` in the badges with your GitHub org/repo slug to activate status badges.
 
@@ -166,7 +166,7 @@ print(report_text)
 ```
 
 ## Publishing
-- Reserve w3id: `https://w3id.org/preclindo` → GitHub Pages or docs site.
+- Reserve w3id: `https://w3id.org/preclindo` -> GitHub Pages or docs site.
 - Distribute: `ontology/*.ttl`, `ontology/context.jsonld`, `docs/*`.
 - Optional registry: LOV, BioPortal/OLS when scope stabilizes.
 
@@ -188,16 +188,19 @@ If you use PCDO, cite this repository and include the version IRI, for example:
 > Preclinical DataCite Ontology (PCDO), version 0.1.0, https://w3id.org/preclindo/ontology/pcdo/0.1.0
 
 ## Roadmap
-- 0.1 (this release): minimal classes, alignments, SHACL, examples, JSON‑LD, CI.
-- 0.2: optional time interval class aligned to OWL‑Time, richer study arm/cohort semantics.
+- 0.1 (this release): minimal classes, alignments, SHACL, examples, JSON-LD, CI.
+- 0.2: optional time interval class aligned to OWL-Time, richer study arm/cohort semantics.
 - 0.3: QUDT quantity pattern for doses and body mass; observation collections.
 - 1.0: governance docs, w3id redirects, registry submissions, extended competency queries.
 
 ## FAQ
-- Why SHACL instead of OWL restrictions? SHACL expresses practical validation (patterns, numeric bounds) without over‑constraining inference.
+- Why SHACL instead of OWL restrictions? SHACL expresses practical validation (patterns, numeric bounds) without over-constraining inference.
 - Do I have to use QUDT now? No. Use simple numbers + `unit:*` IRIs; migrate to `qudt:QuantityValue` later.
 - How are creators modeled? As IRIs (e.g., ORCID) linked via `dcterms:creator`. SHACL can enforce ORCID patterns where desired.
 - Can I add my ELN/LIMS fields? Yes. Extend with subproperties or separate modules; keep the core lean.
 
 ---
 For implementation details and alignments, see `docs/MODEL.md` and `docs/ALIGNMENTS.md`. For changes, see `docs/CHANGELOG.md`.
+
+
+

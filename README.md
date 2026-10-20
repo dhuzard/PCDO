@@ -1,5 +1,8 @@
 ﻿# Preclinical DataCite Ontology (PCDO)
 
+> **Status — preliminary / experimental (October 2026).** PCDO remains an early ontology proposal (0.1.x), not a stable or scientifically qualified standard. Further development is intended when concrete preclinical metadata and DataCite interoperability cases are available; no release timeline is committed. Do not treat SHACL syntax validation as proof of cross-system interoperability or scientific fitness.
+
+
 [![Validate Ontology](https://github.com/dhuzard/datacite-PreclinDOI/actions/workflows/validate.yml/badge.svg)](https://github.com/dhuzard/datacite-PreclinDOI/actions/workflows/validate.yml)
 [![ROBOT Build](https://github.com/dhuzard/datacite-PreclinDOI/actions/workflows/robot.yml/badge.svg)](https://github.com/dhuzard/datacite-PreclinDOI/actions/workflows/robot.yml)
 

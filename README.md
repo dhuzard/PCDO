@@ -1,7 +1,10 @@
 ﻿# Preclinical DataCite Ontology (PCDO)
 
-[![Validate Ontology](https://github.com/dhuzard/datacite-PreclinDOI/actions/workflows/validate.yml/badge.svg)](https://github.com/dhuzard/datacite-PreclinDOI/actions/workflows/validate.yml)
-[![ROBOT Build](https://github.com/dhuzard/datacite-PreclinDOI/actions/workflows/robot.yml/badge.svg)](https://github.com/dhuzard/datacite-PreclinDOI/actions/workflows/robot.yml)
+> **Status — preliminary / experimental (October 2026).** PCDO remains an early ontology proposal (0.1.x), not a stable or scientifically qualified standard. Further development is intended when concrete preclinical metadata and DataCite interoperability cases are available; no release timeline is committed. Do not treat SHACL syntax validation as proof of cross-system interoperability or scientific fitness.
+
+
+[![Validate Ontology](https://github.com/dhuzard/PCDO/actions/workflows/validate.yml/badge.svg)](https://github.com/dhuzard/PCDO/actions/workflows/validate.yml)
+[![ROBOT Build](https://github.com/dhuzard/PCDO/actions/workflows/robot.yml/badge.svg)](https://github.com/dhuzard/PCDO/actions/workflows/robot.yml)
 
 A minimal, reusable ontology for describing preclinical studies and their DOI-minted datasets. PCDO models just enough study semantics (study, cohorts, subjects, interventions, assays, outcomes) to validate DataCite-ready metadata, enable practical queries, and integrate with applications via JSON-LD. Constraints are enforced with SHACL; the ontology aligns with established web and biomedical standards.
 
@@ -139,7 +142,6 @@ Example using the versioned context:
   - `make ROBOT=robot report` - write `reports/robot-report.tsv`
   - `make ROBOT=robot reason` - produce `dist/pcdo-reasoned.ttl` with HermiT
 
-Note: Replace `OWNER/REPO` in the badges with your GitHub org/repo slug to activate status badges.
 
 ## Programmatic Usage (Python)
 ```python
